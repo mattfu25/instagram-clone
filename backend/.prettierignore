@@ -1,0 +1,5 @@
+node_modules
+package-lock.json
+
+## typescript output folder
+dist
