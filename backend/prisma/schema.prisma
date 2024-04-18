@@ -8,23 +8,23 @@ datasource db {
 }
 
 model User {
-  userId    Int      @id @default(autoincrement())
-  username  String   @unique
+  userId      Int        @id @default(autoincrement())
+  username    String     @unique
   hashedPassword String
-  bio       String?
-  posts     Post[]
-  comments  Comment[]
-  likes     Like[]
-  followers User[] @relation("UserFollowers")
-  following User[] @relation("UserFollowing")
+  bio         String?
+  posts       Post[]
+  comments    Comment[]
+  likes       Like[]
+  followers   Follower[] @relation("UserFollowers")
+  following   Follower[] @relation("UserFollowing")
 }
 
 model Post {
   postId    Int      @id @default(autoincrement())
   userId    Int
+  createdAt DateTime @default(now())
   imageUrl  String
   caption   String?
-  createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [userId])
   comments  Comment[]
   likes     Like[]
@@ -34,8 +34,8 @@ model Comment {
   commentId Int      @id @default(autoincrement())
   postId    Int
   userId    Int
-  text      String
   createdAt DateTime @default(now())
+  text      String
   post      Post     @relation(fields: [postId], references: [postId])
   user      User     @relation(fields: [userId], references: [userId])
 }
@@ -49,9 +49,9 @@ model Like {
 }
 
 model Follower {
-  followerId Int @map("userId")
+  followerId  Int
   followingId Int
-  follower   User @relation("UserFollowers", fields: [followerId], references: [userId])
-  following  User @relation("UserFollowing", fields: [followingId], references: [userId])
+  follower    User @relation("UserFollowers", fields: [followerId], references: [userId])
+  following   User @relation("UserFollowing", fields: [followingId], references: [userId])
   @@id([followerId, followingId])
 }
