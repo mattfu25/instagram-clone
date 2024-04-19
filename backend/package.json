@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "aws-sdk": "^2.1603.0",
     "bcrypt": "^5.1.1",
     "cookie-session": "^2.1.0",
     "dotenv": "^16.4.5",
