@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@cis-1962/eslint-config": "^1.0.9",
     "@types/bcrypt": "^5.0.2",
