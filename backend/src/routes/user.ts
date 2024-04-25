@@ -105,6 +105,7 @@ userRouter.post('/login', async (req, res, next) => {
       return;
     }
 
+    // Set session
     req.session!.user = username;
 
     res.status(200).json({ message: 'Logged in.' });
