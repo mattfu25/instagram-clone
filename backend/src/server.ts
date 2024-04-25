@@ -16,6 +16,7 @@ const PORT = process.env.PORT;
 const app = express();
 
 // Middleware
+app.use(express.json());
 app.use(
   cookieSession({
     name: 'session',
@@ -26,16 +27,16 @@ app.use(
 
 // Routers
 app.use('/api/user', userRouter);
-app.use('/api/user', postRouter);
-app.use('/api/user', commentRouter);
-app.use('/api/user', likeRouter);
-app.use('/api/user', followerRouter);
+app.use('/api/post', postRouter);
+app.use('/api/comment', commentRouter);
+app.use('/api/like', likeRouter);
+app.use('/api/follower', followerRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   // eslint-disable-next-line no-console
   console.error(err.stack);
-  res.status(500).json({ error: 'Something broke!' });
+  res.status(500).json({ error: err.message });
 });
 
 // Listen
