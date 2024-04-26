@@ -2,6 +2,8 @@ import express from 'express';
 
 const followerRouter = express.Router();
 
-// TODO: Routes
+// TODO: Follow user
+
+// TODO: Unfollow user
 
 export default followerRouter;

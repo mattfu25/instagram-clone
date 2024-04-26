@@ -139,6 +139,17 @@ userRouter.post('/login', async (req, res, next) => {
 // Require authentication for following routes
 userRouter.use(requireAuth);
 
+// Search user route
+userRouter.get('/search', (req, res) => {
+
+});
+
+// Get user profile route
+// Search user route
+userRouter.get('/profile/:username', (req, res) => {
+  
+});
+
 // Serve profile picture route
 userRouter.use(
   '/profile-pictures',
