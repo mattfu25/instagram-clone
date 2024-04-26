@@ -121,7 +121,7 @@ userRouter.post('/login', async (req, res, next) => {
       user.hashedPassword,
     );
     if (!isPasswordCorrect) {
-      res.status(400).json({ error: 'Incorrect password or password.' });
+      res.status(400).json({ error: 'Incorrect username or password.' });
       return;
     }
 
@@ -145,7 +145,6 @@ userRouter.get('/search', (req, res) => {
 });
 
 // Get user profile route
-// Search user route
 userRouter.get('/profile/:username', (req, res) => {
   
 });
