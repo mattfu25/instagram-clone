@@ -16,8 +16,8 @@ model User {
   posts           Post[]
   likes           Like[]
   comments        Comment[]
-  followedBy      Follows[]    @relation("follower")
-  following       Follows[]    @relation("followed")
+  followedBy      Follows[]    @relation("followed")
+  following       Follows[]    @relation("follower")
 }
 
 model Post {
