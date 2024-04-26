@@ -56,7 +56,7 @@ userRouter.post(
       }
 
       // Extract fields
-      const { username, password, firstName, lastName } = req.body;
+      const { username, password, firstName, lastName } = result.data;
 
       // Check if username is in db
       const userWithUsername = await prisma.user.findUnique({
@@ -107,7 +107,7 @@ userRouter.post('/login', async (req, res, next) => {
     }
 
     // Extract username and password
-    const { username, password } = req.body;
+    const { username, password } = result.data;
 
     // Authenticate username and password
     const user = await prisma.user.findUnique({
