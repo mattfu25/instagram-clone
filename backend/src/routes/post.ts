@@ -63,9 +63,54 @@ postRouter.post('/create', upload.single('picture'), async (req, res, next) => {
   }
 });
 
-// Delete route
+// TODO: Delete route
 
 // Feed route
+postRouter.get('/feed', async (req, res, next) => {
+  try {
+    // Extract fields
+    const { user } = req.session;
+
+    // Get feed
+    const feed = await prisma.post.findMany({
+      where: {
+        userUsername: {
+          in: await prisma.follows
+            .findMany({
+              where: {
+                followerUsername: user,
+              },
+              select: {
+                followedUsername: true,
+              },
+            })
+            .then((follows) =>
+              follows.map((follow) => follow.followedUsername),
+            ),
+        },
+      },
+      include: {
+        User: {
+          select: {
+            username: true,
+            firstName: true,
+            lastName: true,
+            profilePicture: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.status(200).json(feed);
+    return;
+  } catch (error) {
+    next(error);
+    return;
+  }
+});
 
 // Serve post route
 postRouter.use('/posts', express.static(path.join(__dirname, '../../posts')));
