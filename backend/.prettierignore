@@ -1,5 +1,9 @@
 node_modules
 package-lock.json
 
-## Typescript output folder
-dist
+# Typescript output folder
+dist/
+
+# Pictures
+profile-pictures/
+posts/

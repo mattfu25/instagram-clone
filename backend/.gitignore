@@ -1,6 +1,9 @@
 node_modules/
 .env
 
+# Typescript output folder
+dist/
+
 # Pictures
 profile-pictures/
 posts/
