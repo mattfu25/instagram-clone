@@ -42,6 +42,10 @@ const searchSchema = z.object({
   query: z.string().min(1),
 });
 
+const profileSchema = z.object({
+  username: z.string().min(1),
+});
+
 // Signup route
 userRouter.post(
   '/signup',
@@ -182,7 +186,66 @@ userRouter.get('/search', async (req, res, next) => {
 });
 
 // Get user profile route
-userRouter.get('/profile/:username', async (req, res, next) => {});
+userRouter.get('/profile/:username', async (req, res, next) => {
+  try {
+    // Runtime validation
+    const result = profileSchema.safeParse(req.params);
+    if (!result.success) {
+      res.status(400).json({ error: `Invalid input.` });
+      return;
+    }
+
+    // Extract username
+    const { username } = result.data;
+
+    // Search
+    const user = await prisma.user.findUnique({
+      where: { username },
+      include: {
+        posts: {
+          select: {
+            postId: true,
+            picture: true,
+            caption: true,
+            createdAt: true
+          }
+        },
+        followedBy: {
+          select: {
+            followerUsername: true,
+          }
+        },
+        following: {
+          select: {
+            followedUsername: true,
+          }
+        },
+      }
+    });
+
+    if (!user) {
+      res.status(404).json({ error: "User not found." });
+      return;
+    }
+
+    // Format
+    const profile = {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      profilePicture: user.profilePicture,
+      posts: user.posts,
+      followersCount: user.followedBy.length,
+      followingCount: user.following.length
+    };
+
+    res.status(200).json(profile);
+    return;
+  } catch (error) {
+    next(error);
+    return;
+  }
+});
 
 // Serve profile picture route
 userRouter.use(
