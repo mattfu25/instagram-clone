@@ -147,7 +147,7 @@ userRouter.post('/login', async (req, res, next) => {
 // Require authentication for following routes
 userRouter.use(requireAuth);
 
-// Search user route
+// Search route
 userRouter.get('/search', async (req, res, next) => {
   try {
     // Runtime validation
@@ -185,7 +185,7 @@ userRouter.get('/search', async (req, res, next) => {
   }
 });
 
-// Get user profile route
+// Profile route
 userRouter.get('/profile/:username', async (req, res, next) => {
   try {
     // Runtime validation
@@ -207,24 +207,24 @@ userRouter.get('/profile/:username', async (req, res, next) => {
             postId: true,
             picture: true,
             caption: true,
-            createdAt: true
-          }
+            createdAt: true,
+          },
         },
         followedBy: {
           select: {
             followerUsername: true,
-          }
+          },
         },
         following: {
           select: {
             followedUsername: true,
-          }
+          },
         },
-      }
+      },
     });
 
     if (!user) {
-      res.status(404).json({ error: "User not found." });
+      res.status(404).json({ error: 'User not found.' });
       return;
     }
 
@@ -236,7 +236,7 @@ userRouter.get('/profile/:username', async (req, res, next) => {
       profilePicture: user.profilePicture,
       posts: user.posts,
       followersCount: user.followedBy.length,
-      followingCount: user.following.length
+      followingCount: user.following.length,
     };
 
     res.status(200).json(profile);
