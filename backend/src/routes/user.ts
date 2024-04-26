@@ -38,6 +38,10 @@ const loginSchema = z.object({
   password: z.string().min(1),
 });
 
+const searchSchema = z.object({
+  query: z.string().min(1),
+});
+
 // Signup route
 userRouter.post(
   '/signup',
@@ -140,14 +144,45 @@ userRouter.post('/login', async (req, res, next) => {
 userRouter.use(requireAuth);
 
 // Search user route
-userRouter.get('/search', (req, res) => {
+userRouter.get('/search', async (req, res, next) => {
+  try {
+    // User input validation
+    const result = searchSchema.safeParse(req.query);
+    if (!result.success) {
+      res.status(400).json({ error: `Invalid input.` });
+      return;
+    }
 
+    // Extract query
+    const { query } = result.data;
+
+    // Search
+    const results = await prisma.user.findMany({
+      where: {
+        OR: [
+          { username: { contains: query, mode: 'insensitive' } },
+          { firstName: { contains: query, mode: 'insensitive' } },
+          { lastName: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+      select: {
+        username: true,
+        firstName: true,
+        lastName: true,
+        profilePicture: true,
+      },
+    });
+
+    res.status(200).json(results);
+    return;
+  } catch (error) {
+    next(error);
+    return;
+  }
 });
 
 // Get user profile route
-userRouter.get('/profile/:username', (req, res) => {
-  
-});
+userRouter.get('/profile/:username', (req, res, next) => {});
 
 // Serve profile picture route
 userRouter.use(
