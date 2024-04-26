@@ -17,7 +17,7 @@ const addCommentSchema = z.object({
 commentRouter.use(requireAuth);
 
 // Add comment route
-commentRouter.post('/add', requireAuth, async (req, res, next) => {
+commentRouter.post('/add', async (req, res, next) => {
   try {
     // Runtime validation
     const result = addCommentSchema.safeParse(req.body);
