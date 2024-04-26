@@ -26,18 +26,41 @@ const upload = multer({ storage: storage });
 
 // Define type/schemas for runtime validation
 const createPostSchema = z.object({
-  username: z.string().min(1),
-  password: z.string().min(1),
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
+  caption: z.string().optional(),
 });
 
 // Require authentication for following routes
 postRouter.use(requireAuth);
 
 // Create route
-postRouter.post('/create', upload.single('post'), async (req, res, next) => {
+postRouter.post('/create', upload.single('picture'), async (req, res, next) => {
+  try {
+    // Runtime validation
+    const result = createPostSchema.safeParse(req.body);
+    if (!result.success) {
+      res.status(400).json({ error: `Invalid input.` });
+      return;
+    }
     
+    // Extract fields
+    const { caption } = result.data;
+    const { user } = req.session;
+
+    // Create new post in db
+    const post = await prisma.post.create({
+      data: {
+        picture: req.file.filename,
+        caption: caption,
+        userUsername: user,
+      },
+    });
+
+    res.status(201).json({ message: 'Post created.' });
+    return;
+  } catch (error) {
+    next(error);
+    return;
+  }
 });
 
 // Delete route
