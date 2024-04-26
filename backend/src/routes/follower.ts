@@ -7,11 +7,8 @@ import { prisma } from '../config';
 const followerRouter = express.Router();
 
 // Define type/schemas for runtime validation
-const signupSchema = z.object({
-  username: z.string().min(1),
-  password: z.string().min(1),
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
+const followSchema = z.object({
+  usernameToFollow: z.string().min(1),
 });
 
 // Require authentication for following routes
@@ -20,8 +17,15 @@ followerRouter.use(requireAuth);
 // Follow route
 followerRouter.post('/follow', async (req, res, next) => {
   try {
+    // Runtime validation
+    const result = followSchema.safeParse(req.body);
+    if (!result.success) {
+      res.status(400).json({ error: `Invalid input.` });
+      return;
+    }
+
     // Extract fields
-    const { usernameToFollow } = req.body;
+    const { usernameToFollow } = result.data;;
     const { user } = req.session;
 
     // Check if usernameToFollow is in db
