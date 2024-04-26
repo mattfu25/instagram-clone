@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Define type/schemas for user input validation
+// Define type/schemas for runtime validation
 const signupSchema = z.object({
   username: z.string().min(1),
   password: z.string().min(1),
@@ -48,7 +48,7 @@ userRouter.post(
   upload.single('profilePicture'),
   async (req, res, next) => {
     try {
-      // User input validation
+      // Runtime validation
       const result = signupSchema.safeParse(req.body);
       if (!result.success) {
         res.status(400).json({ error: `Invalid input.` });
@@ -99,7 +99,7 @@ userRouter.post(
 // Login route
 userRouter.post('/login', async (req, res, next) => {
   try {
-    // User input validation
+    // Runtime validation
     const result = loginSchema.safeParse(req.body);
     if (!result.success) {
       res.status(400).json({ error: `Invalid input.` });
@@ -146,7 +146,7 @@ userRouter.use(requireAuth);
 // Search user route
 userRouter.get('/search', async (req, res, next) => {
   try {
-    // User input validation
+    // Runtime validation
     const result = searchSchema.safeParse(req.query);
     if (!result.success) {
       res.status(400).json({ error: `Invalid input.` });
@@ -182,7 +182,7 @@ userRouter.get('/search', async (req, res, next) => {
 });
 
 // Get user profile route
-userRouter.get('/profile/:username', (req, res, next) => {});
+userRouter.get('/profile/:username', async (req, res, next) => {});
 
 // Serve profile picture route
 userRouter.use(
