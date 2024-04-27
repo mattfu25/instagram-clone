@@ -41,7 +41,7 @@ postRouter.post('/create', upload.single('picture'), async (req, res, next) => {
       res.status(400).json({ error: `Invalid input.` });
       return;
     }
-    
+
     // Extract fields
     const { caption } = result.data;
     const { user } = req.session;
@@ -93,9 +93,22 @@ postRouter.get('/feed', async (req, res, next) => {
         User: {
           select: {
             username: true,
-            firstName: true,
-            lastName: true,
             profilePicture: true,
+          },
+        },
+        likedBy: {
+          select: {
+            userUsername: true,
+          },
+        },
+        comments: {
+          include: {
+            User: {
+              select: {
+                username: true,
+                profilePicture: true,
+              },
+            },
           },
         },
       },
@@ -104,7 +117,18 @@ postRouter.get('/feed', async (req, res, next) => {
       },
     });
 
-    res.status(200).json(feed);
+    const formattedFeed = feed.map((post) => ({
+      ...post,
+      likeCount: post.likedBy.length, 
+      comments: post.comments.map((comment) => ({
+        text: comment.text,
+        createdAt: comment.createdAt,
+        userUsername: comment.User.username,
+        userProfilePicture: comment.User.profilePicture,
+      })),
+    }));
+
+    res.status(200).json(formattedFeed);
     return;
   } catch (error) {
     next(error);
