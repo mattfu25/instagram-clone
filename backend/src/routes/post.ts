@@ -117,6 +117,7 @@ postRouter.get('/feed', async (req, res, next) => {
       },
     });
 
+    // Format feed
     const formattedFeed = feed.map((post) => ({
       ...post,
       likeCount: post.likedBy.length, 

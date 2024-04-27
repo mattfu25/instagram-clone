@@ -198,16 +198,30 @@ userRouter.get('/profile/:username', async (req, res, next) => {
     // Extract username
     const { username } = result.data;
 
-    // Search
+    // Search profile
     const user = await prisma.user.findUnique({
       where: { username },
       include: {
         posts: {
-          select: {
-            postId: true,
-            picture: true,
-            caption: true,
-            createdAt: true,
+          include: {
+            likedBy: {
+              select: {
+                userUsername: true, 
+              },
+            },
+            comments: {
+              include: {
+                User: {
+                  select: {
+                    username: true,
+                    profilePicture: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            createdAt: 'desc',
           },
         },
         followedBy: {
@@ -223,18 +237,33 @@ userRouter.get('/profile/:username', async (req, res, next) => {
       },
     });
 
+    // Check if profile is in db
     if (!user) {
       res.status(404).json({ error: 'User not found.' });
       return;
     }
 
-    // Format
+    // Format posts 
+    const formattedPosts = user.posts.map((post) => ({
+      ...post,
+      likeCount: post.likedBy.length, // Counting likes for each post
+      comments: post.comments.map((comment) => ({
+        text: comment.text,
+        createdAt: comment.createdAt,
+        commenter: {
+          username: comment.User.username,
+          profilePicture: comment.User.profilePicture,
+        },
+      })),
+    }));
+
+    // Format profile
     const profile = {
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
       profilePicture: user.profilePicture,
-      posts: user.posts,
+      posts: formattedPosts,
       followersCount: user.followedBy.length,
       followingCount: user.following.length,
     };
