@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import CreatePostModal from '../components/CreatePostModal';
 
-function HomePage() {
+function SearchPage() {
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ function HomePage() {
         setShowCreatePostModal={setShowCreatePostModal}
       />
       <div className="flex items-center justify-center" style={{ height: '100vh', marginLeft: '4rem' }}>
-        <p>Home</p>
+        <p>Search</p>
         <CreatePostModal
           showCreatePostModal={showCreatePostModal}
           setShowCreatePostModal={setShowCreatePostModal}
@@ -22,4 +22,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default SearchPage;
