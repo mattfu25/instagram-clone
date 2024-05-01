@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import instagramIcon from '../assets/instagram-logo.svg';
+import instagramIcon from '../assets/instagram-logo-thin.svg';
 import homeIcon from '../assets/home-icon.svg';
 import searchIcon from '../assets/search-icon.svg';
 import createIcon from '../assets/create-icon.svg';
