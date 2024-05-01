@@ -37,6 +37,13 @@ function CreatePostModal({ showCreatePostModal, setShowCreatePostModal }) {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <form
         className="bg-white p-5 rounded-lg shadow-lg"
+        style={{
+          width: '300px',
+          height: '300px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+        }}
         onSubmit={handleSubmit}
       >
         <h2 className="text-lg font-bold mb-3">Create new post</h2>
@@ -51,20 +58,23 @@ function CreatePostModal({ showCreatePostModal, setShowCreatePostModal }) {
           onChange={handleCaptionChange}
           placeholder="Write a caption..."
           className="border p-2 mb-3 w-full"
+          style={{ resize: 'none' }}
         />
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Share
-        </button>
-        <button
-          type="button"
-          onClick={() => setShowCreatePostModal(false)}
-          className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Close
-        </button>
+        <div className="flex justify-between">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Share
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowCreatePostModal(false)}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Close
+          </button>
+        </div>
       </form>
     </div>
   );
