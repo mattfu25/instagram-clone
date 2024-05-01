@@ -147,6 +147,12 @@ userRouter.post('/login', async (req, res, next) => {
 // Require authentication for following routes
 userRouter.use(requireAuth);
 
+// Session route
+userRouter.get('/session', async (req, res, next) => {
+  res.status(200).json({ session: req.session!.user });
+  return;
+});
+
 // Search route
 userRouter.get('/search', async (req, res, next) => {
   try {
