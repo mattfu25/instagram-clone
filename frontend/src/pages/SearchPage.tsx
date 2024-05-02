@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import CreatePostModal from '../components/PostCreateModal';
+import Searchbar from '../components/Searchbar';
+import Profile from '../components/Profile';
 
 function SearchPage() {
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
+  const [username, setUsername] = useState('');
 
   return (
     <>
@@ -11,11 +14,12 @@ function SearchPage() {
         showCreatePostModal={showCreatePostModal}
         setShowCreatePostModal={setShowCreatePostModal}
       />
+      <Searchbar setUsername={setUsername} />
       <div
-        className="flex items-center justify-center"
+        className="flex flex-col items-center justify-center"
         style={{ height: '100vh', marginLeft: '4rem' }}
       >
-        <p>Search</p>
+        <Profile username={username}/>
         <CreatePostModal
           showCreatePostModal={showCreatePostModal}
           setShowCreatePostModal={setShowCreatePostModal}
