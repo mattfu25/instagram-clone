@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useSWR from 'swr';
+import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import CreatePostModal from '../components/PostCreateModal';
+import PostCard from '../components/PostCard';
+
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 function HomePage() {
-  const [showCreatePostModal, setShowCreatePostModal] = useState(false);
+  const [showCreatePostModal, setShowCreatePostModal] = React.useState(false);
+  const { data: posts, mutate } = useSWR('/api/post/feed', fetcher);
 
   return (
     <>
@@ -12,10 +18,19 @@ function HomePage() {
         setShowCreatePostModal={setShowCreatePostModal}
       />
       <div
-        className="flex items-center justify-center"
-        style={{ height: '100vh', marginLeft: '4rem' }}
+        className="flex items-start justify-center"
+        style={{
+          height: 'calc(100vh - 4rem)',
+          marginLeft: '4rem',
+          overflowY: 'auto',
+        }}
       >
-        <p>Home</p>
+        <div>
+          {posts &&
+            posts.map((post) => (
+              <PostCard key={post.postId} post={post} mutate={mutate} />
+            ))}
+        </div>
         <CreatePostModal
           showCreatePostModal={showCreatePostModal}
           setShowCreatePostModal={setShowCreatePostModal}
