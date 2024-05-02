@@ -16,8 +16,8 @@ function SearchPage() {
       />
       <Searchbar setUsername={setUsername} />
       <div
-        className="flex flex-col items-center justify-center"
-        style={{ height: '100vh', marginLeft: '4rem' }}
+        className="flex flex-col items-center"
+        style={{ minHeight: '100vh', marginLeft: '4rem' }}
       >
         <Profile username={username}/>
         <CreatePostModal
