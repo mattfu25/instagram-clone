@@ -37,6 +37,18 @@ likeRouter.post('/add', async (req, res, next) => {
       return;
     }
 
+    // Check if the user has already liked this post
+    const existingLike = await prisma.like.findFirst({
+      where: {
+        userUsername: user,
+        postPostId: postId,
+      },
+    });
+    if (existingLike) {
+      res.status(409).json({ error: 'You have already liked this post.' });
+      return;
+    }
+
     // Add like in db
     const newLike = await prisma.like.create({
       data: {
