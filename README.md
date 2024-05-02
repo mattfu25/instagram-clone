@@ -20,7 +20,7 @@ cd backend
 npm install
 ```
 
-3. Create a `.env` file. Insert the following environment variables. For more on Prisma visit the [Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-typescript-postgresql).
+3. Create a `.env` file. Insert the following environment variables. Note, the database url should be for Postgres. For the database url format and more on Prisma visit the [Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-typescript-postgresql).
 
 ```javascript
 npm # Prisma
