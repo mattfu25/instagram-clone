@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import likeEmptyIcon from '../assets/like-empty-icon.svg';
 
+// TODO: Add unlikes and change like icon
 const PostCard = ({ post, mutate }) => {
   const profilePictureUrl = `/api/user/profile-pictures/${post.User.profilePicture}`;
   const postPictureUrl = `/api/post/posts/${post.picture}`;
@@ -11,7 +12,7 @@ const PostCard = ({ post, mutate }) => {
       await axios.post('/api/like/add', { postId: post.postId });
       mutate();
     } catch (error) {
-      console.error('Error liking post:', error);
+      alert(error.response.data.error || 'Failed to like.');
     }
   };
 
