@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import InstagramLogo from '../assets/instagram-name.svg';
@@ -19,7 +19,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/user/login', credentials);
+      await axios.post('/api/user/login', credentials);
       navigate('/home');
     } catch (error) {
       alert(error.response.data.error || 'Failed to log in.');

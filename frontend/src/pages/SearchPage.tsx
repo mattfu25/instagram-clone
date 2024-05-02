@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import CreatePostModal from '../components/PostCreateModal';
 import Searchbar from '../components/Searchbar';

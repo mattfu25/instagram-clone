@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 function CreatePostModal({ showCreatePostModal, setShowCreatePostModal }) {
@@ -20,7 +20,7 @@ function CreatePostModal({ showCreatePostModal, setShowCreatePostModal }) {
     formData.append('caption', caption);
 
     try {
-      const response = await axios.post('/api/post/create', formData, {
+      await axios.post('/api/post/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

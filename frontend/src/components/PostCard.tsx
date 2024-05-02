@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import likeEmptyIcon from '../assets/like-empty-icon.svg';
 
