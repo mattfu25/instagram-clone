@@ -33,14 +33,14 @@ PORT =
 COOKIE_SECRET = ""
 ```
 
-5. Run initial migration and generate prisma client.
+4. Run initial migration and generate prisma client.
 
 ```bash
 npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-6. Start the server with either of the following.
+5. Start the server with either of the following.
 ```bash
 npm run dev
 ```
