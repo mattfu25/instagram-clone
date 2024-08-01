@@ -54,7 +54,7 @@ npm run start
 1. Cd into frontend directory.
 
 ```bash
-cd backend
+cd frontend
 ```
 
 2. Install dependencies.
